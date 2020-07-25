@@ -1,5 +1,6 @@
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
+
 const icons = {
   'todo': 'assignment',
   'in-progress': 'autorenew',
@@ -14,17 +15,48 @@ const colors = {
   'deleted': 'red',
   'canceled': 'black'
 }
-export default ({ children, status }) => {
+
+const commandList = {
+  'todo': ['start', 'delete'],
+  'in-progress': ['done', 'cancel'],
+  'done': ['delete'],
+  'deleted': [],
+  'canceled': ['delete']
+}
+
+const commandButtonColors = {
+  start: 'primary',
+  done: 'secondary'
+}
+
+
+const statusCommands = {
+  start: 'in-progress',
+  done: 'done',
+  cancel: 'canceled',
+  delete: 'deleted'
+}
+
+export default ({children, status, onChange}) => {
+
+  const createCommandButton = command => () => <Button
+    onClick={() => onChange && onChange(statusCommands[command])}
+    type="button"
+    color={commandButtonColors[command]}>
+    {command}
+  </Button>
+
+  const enabledCommands = commandList[status]
   return (
     <>
       <li className="task-list__item">
-        <Icon style={{ color: colors[status], margin: 'auto 4px auto 0px' }}>{icons[status]}</Icon>
+        <Icon style={{color: colors[status], margin: 'auto 4px auto 0px'}}>{icons[status]}</Icon>
         <p className="title">{children}</p>
         <div className="btn-group">
-          <Button type="button" color="primary">Start</Button>
-          <Button type="button" color="secondary">Done</Button>
-          <Button type="button">Cancel</Button>
-          <Button type="button">Delete</Button>
+          {enabledCommands.map((command, index) => {
+            const CommandButton = createCommandButton(command)
+            return <CommandButton key={index} />
+          })}
         </div>
       </li>
       <style jsx>{
