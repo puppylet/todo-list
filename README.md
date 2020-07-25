@@ -2,6 +2,14 @@
 
 Todo List web application
 
+
+### Feature
+
+- Login to manage your task
+- Login with the same account on another place to see the data synced realtime
+- Go to https://todo-list-dun.vercel.app to see the deployed version 
+
+
 ### How to submit the test
 
 Create an PR from your own code branch and assign to me `@longtran-pops` before the deadline.
